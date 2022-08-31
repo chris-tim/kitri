@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="testMapper">
+	<select id="kitriCategorySelect" resultType="Map">
+		select 
+			path_value, name
+		from 
+			home_category 
+		order by 
+			ordering asc
+	</select>
+	
+	<select id="kitriCategoryPageSelect" parameterType="String" resultType="Map">
+		select 
+			path_value, name, view_name
+		from 
+			home_category_value 
+		where 
+				path_value = #{_parameter}
+		order by 
+			ordering asc
+	</select>
+</mapper>

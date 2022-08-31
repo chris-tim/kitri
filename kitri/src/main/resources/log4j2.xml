@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%t - [%d{yyyy-MM-dd HH:mm:ss}] [%c{1}] [%p] %m %n" />
+		</Console>
+	</Appenders>
+	
+	<Loggers>
+		<Root level="ERROR">
+			<AppenderRef ref="console"/>
+		</Root>
+		<!-- 
+		<logger level="INFO" name="jdbc.connection" additivity="false">
+			<AppenderRef ref="console"/> 
+		</logger>
+		-->
+		<!-- 쿼리 출력 -->
+		
+		<logger level="INFO" name="jdbc.sqlonly" additivity="false"> 
+			<AppenderRef ref="console"/> 
+		</logger>
+		<!-- 
+		<logger level="INFO" name="jdbc.sqltiming" additivity="false">
+			<AppenderRef ref="console"/> 
+		</logger>
+		 -->
+	</Loggers>
+</Configuration>
