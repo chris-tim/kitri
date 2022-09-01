@@ -1,23 +1,23 @@
-package kr.re.kitri.kitri.common;
+package kr.re.kitri.kitri;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import kr.re.kitri.kitri.dao.TestDAO;
 
-@Component
-public class Nav {
+public class KitriBase {
+	
+	protected final static String KITRI_PREFIX = "kitri/";
 	
 	@Autowired
 	private TestDAO dao;
 	
-	public LinkedHashMap<String, List<Map<String, Object>>> getNav() {
-		List<Map<String, Object>> categorys = dao.getKitriCategory();
+	protected LinkedHashMap<String, List<Map<String, Object>>> getNav() {
 		
+		List<Map<String, Object>> categorys = dao.getKitriCategory();
 		
 		LinkedHashMap<String, List<Map<String, Object>>> nav = new LinkedHashMap<String, List<Map<String,Object>>>();
 		List<Map<String, Object>> pages;
@@ -26,7 +26,7 @@ public class Nav {
 		for (int i = 0; i < categorys.size(); i++) {
 			t = categorys.get(i);
 			
-			pages = dao.getKitriCategoryPage((String) t.get("path_value"));
+			pages = dao.getKitriCategoryPage((String) categorys.get(i).get("path_value"));
 			
 			if(pages.size() == 0) {
 				continue;
@@ -35,7 +35,7 @@ public class Nav {
 			nav.put((String) t.get("name"), pages);
 			
 		}
-		
 		return nav;
 	}
+
 }

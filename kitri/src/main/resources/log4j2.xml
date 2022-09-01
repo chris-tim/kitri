@@ -17,7 +17,7 @@
 		-->
 		<!-- 쿼리 출력 -->
 		
-		<logger level="INFO" name="jdbc.sqlonly" additivity="false"> 
+		<logger level="ERROR" name="jdbc.sqlonly" additivity="false"> 
 			<AppenderRef ref="console"/> 
 		</logger>
 		<!-- 

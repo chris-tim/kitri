@@ -5,7 +5,7 @@
 <c:set var="baseLink" value="${ pageContext.request.contextPath }/kitri" />
 
 
-<h1>테스트</h1>
+<h1>변경 전</h1>
 
 <div>
 	<div>
