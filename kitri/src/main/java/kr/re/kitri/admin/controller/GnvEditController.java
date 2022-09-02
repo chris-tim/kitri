@@ -19,14 +19,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.re.kitri.admin.AdminBase;
-import kr.re.kitri.kitri.dao.TestDAO;
+import kr.re.kitri.kitri.dao.NavigationDAO;
 
 @Controller
 @RequestMapping("/admin")
 public class GnvEditController extends AdminBase {
 	
 	@Autowired
-	private TestDAO dao;
+	private NavigationDAO dao;
 	
 	@Autowired
 	private ServletContext context;
@@ -43,7 +43,7 @@ public class GnvEditController extends AdminBase {
 		
 		StringBuffer buffer = new StringBuffer();
 		
-		List<Map<String, Object>> categorys = dao.getKitriCategory();
+		List<Map<String, Object>> categorys = dao.getCategory();
 		Map<String, Object> t;
 		List<Map<String, Object>> pages;
 		
@@ -65,7 +65,7 @@ public class GnvEditController extends AdminBase {
 			buffer.append(tab);
 			buffer.append("<br>");
 			
-			pages = dao.getKitriCategoryPage((String) t.get("path_value"));
+			pages = dao.getCategoryPage((String) t.get("path_value"));
 			
 			for (int j = 0; j < pages.size(); j++) {
 				buffer.append(enter);

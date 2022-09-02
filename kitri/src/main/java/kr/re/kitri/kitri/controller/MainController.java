@@ -13,9 +13,7 @@ public class MainController extends KitriBase {
 	
 	@GetMapping(value = {"", "/", "/main"})
 	public String main(Model model) {
-		
-		model.addAttribute("nav", getNav());
-		
+				
 		return KITRI_PREFIX + "main";
 	}
 }

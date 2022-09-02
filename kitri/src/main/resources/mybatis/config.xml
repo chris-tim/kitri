@@ -8,6 +8,6 @@
 		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
 	<mappers>
-		<mapper resource="/mybatis/mapper/testMapper.xml"/>
+		<mapper resource="/mybatis/mapper/kitri/NavigationMapper.xml"/>
 	</mappers>
 </configuration>

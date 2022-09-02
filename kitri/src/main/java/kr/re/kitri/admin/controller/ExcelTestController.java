@@ -24,14 +24,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import kr.re.kitri.kitri.dao.TestDAO;
+import kr.re.kitri.kitri.dao.NavigationDAO;
 
 @Controller
 @RequestMapping("/excel")
 public class ExcelTestController {
 	
 	@Autowired
-	TestDAO dao;
+	private NavigationDAO dao;
 	
 	@Autowired
 	private ServletContext context;
@@ -70,7 +70,7 @@ public class ExcelTestController {
 		style.setVerticalAlignment(VerticalAlignment.CENTER);
 		
 		
-		List<Map<String, Object>> categorys = dao.getKitriCategory();
+		List<Map<String, Object>> categorys = dao.getCategory();
 		
 		Row row;
 		Cell cell;
