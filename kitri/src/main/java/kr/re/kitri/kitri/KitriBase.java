@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import kr.re.kitri.kitri.dao.TestDAO;
 
+@Controller
 public class KitriBase {
 	
 	protected final static String KITRI_PREFIX = "kitri/";

@@ -36,9 +36,6 @@ public class GnvEditController extends AdminBase {
 		
 		File file = new File(context.getRealPath("/WEB-INF/tiles/layout/kitri/kitri_gnv.jsp"));
 		
-		// 윈도우 테스트
-		//File file = new File(context.getRealPath("\\WEB-INF\\tiles\\layout\\kitri\\kitri_gnv.jsp"));
-		
 		String baseLink = request.getContextPath() + "/kitri/";
 		String enter = "\r\n";
 		String tab = "\t";
@@ -92,6 +89,7 @@ public class GnvEditController extends AdminBase {
 
 		String html = buffer.toString();
 		
+		// 파일 없을 때 처리 추가 필요
 		try {
 			
 			OutputStream stream = new FileOutputStream(file);
@@ -104,15 +102,11 @@ public class GnvEditController extends AdminBase {
 			
 		} 
 		catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		System.out.println(file.toPath());
 		
 		try {
 			responese.sendRedirect(baseLink);
