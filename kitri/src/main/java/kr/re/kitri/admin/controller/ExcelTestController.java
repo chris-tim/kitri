@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,12 +25,19 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.re.kitri.dto.ExcelDTO;
 import kr.re.kitri.kitri.dao.NavigationDAO;
+import kr.re.kitri.util.ExcelUtil;
+import kr.re.kitri.vo.ExcelSheetVO;
 
 @Controller
 @RequestMapping("/excel")
 public class ExcelTestController {
+	
+	@Autowired
+	ExcelUtil util;
 	
 	@Autowired
 	private NavigationDAO dao;
@@ -114,9 +123,45 @@ public class ExcelTestController {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
-			
 	}
-	
+
+	@RequestMapping(value = "/dtoTest", produces = "text/plain;charset=UTF-8")
+	@ResponseBody()
+	public String dtoTest(HttpServletResponse response) {
+		
+		// 추가 경로 지정 null 허용
+		final String SAVE_PATH = "dto/category";
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
+		String fileName = format.format(timestamp) + "_excel_dto_test.xlsx";
+		
+		List<ExcelSheetVO> sheetDatas = new LinkedList<ExcelSheetVO>();
+		
+		String sheetName = "홈페이지 네비";
+		List<Map<String, Object>> body = dao.getCategory();
+		Map<String, Object> header = body.get(0);
+		ExcelSheetVO sheet1Data = new ExcelSheetVO(sheetName, header, body); 
+		
+		sheetDatas.add(sheet1Data);
+		
+		sheetName = "홈페이지 카테고리";
+		
+		header = new LinkedHashMap<String, Object>();
+		header.put("0", "카테고리 명");
+		header.put("1", "경로");
+		ExcelSheetVO sheet2Data = new ExcelSheetVO(sheetName, header, body); 
+		sheetDatas.add(sheet2Data);
+		
+		ExcelDTO dto = new ExcelDTO(SAVE_PATH, fileName, sheetDatas);
+		
+		boolean excelOk = util.createExcel(dto);
+		
+		if(excelOk) {
+			return SAVE_PATH + fileName;
+		}
+		else {
+			return "Fail";
+		}
+		
+	}
 }
