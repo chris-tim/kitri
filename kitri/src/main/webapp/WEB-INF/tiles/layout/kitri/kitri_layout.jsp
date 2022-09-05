@@ -5,6 +5,8 @@
 <html>
 <head>
 	<title>테스트</title>
+	
+	<script src="<c:url value="/resources/js/jquery-1.8.2.js" />"></script>
 </head>
 <body>
 

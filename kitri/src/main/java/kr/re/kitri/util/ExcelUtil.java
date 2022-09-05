@@ -32,7 +32,7 @@ public class ExcelUtil {
 	@Autowired
 	private ServletContext context;
 	
-	public boolean createExcel(ExcelDTO excelDTO) {
+	public String createExcel(ExcelDTO excelDTO) {
 		
 		if(excelDTO != null && excelDTO.getFileName() != "") {
 		
@@ -102,17 +102,17 @@ public class ExcelUtil {
 			// 엑셀 생성
 			try {
 				
-				String filePath;
+				String dir;
 				
 				// 추가 경로 null 처리
-				if(excelDTO.getFilePath() == null) {
-					filePath = "";
+				if(excelDTO.getFileDir() == null) {
+					dir = "";
 				}
 				else {
-					filePath = excelDTO.getFilePath();
+					dir = excelDTO.getFileDir();
 				}
 				
-				String path = SAVE_PATH + filePath;
+				String path = SAVE_PATH + dir;
 				File folder = new File(path);
 				
 				// 지정된 폴더가 없을 경우 상위 폴더까지 생성
@@ -124,7 +124,7 @@ public class ExcelUtil {
 				FileOutputStream out = new FileOutputStream(new File(path, excelDTO.getFileName()));
 				
 				// 저장 경로 확인
-				System.out.println(SAVE_PATH + excelDTO.getFilePath());
+				System.out.println(path);
 				System.out.println(excelDTO.getFileName());
 				
 				// 엑셀 생성
@@ -133,16 +133,17 @@ public class ExcelUtil {
 				out.close();
 				// 엑셀 생성 종료
 				workbook.close();
+				
+				return path + "/" +excelDTO.getFileName();
 			}
 			catch (IOException e) {
 				// 오류 확인
 				e.printStackTrace();
-				return false;
+				return null;
 			}
-			return true;
 		}
 		else {
-			return false;
+			return null;
 		}
 	}
 }

@@ -7,7 +7,7 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
-	<context:property-placeholder location="classpath:/mybatis/develop.properties"/>
+	<context:property-placeholder location="classpath:/develop.properties"/>
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">		
 		<property name="driverClassName" value="${driverClassName}" />
@@ -26,14 +26,14 @@
 	
 	<!-- 이메일 테스트 -->
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.gmail.com" />
-		<property name="port" value="465" />
-		<property name="username" value="khala0017@gmail.com" />
-		<property name="password" value="moxjtjljqwsrnkuz" />
+		<property name="host" value="${smtpHost}" />
+		<property name="port" value="${smtpPort}" />
+		<property name="username" value="${smtpUserName}" />
+		<property name="password" value="${smtpPassword}" />
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.transport.protocol">smtp</prop>
-				<!-- gmail smtp는 없으면 작동 안함 다른 smtp는 확인 필요 -->
+				<!-- gmail 없으면 작동 안함 다른 smtp는 확인 필요 -->
 				<prop key="mail.smtp.ssl.enable">true</prop>
 				<prop key="mail.smtp.auth">true</prop>
 				<prop key="mail.smtp.starttls.enable">true</prop>

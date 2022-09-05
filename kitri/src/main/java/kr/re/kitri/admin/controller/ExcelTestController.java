@@ -3,6 +3,7 @@ package kr.re.kitri.admin.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
@@ -25,11 +26,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.re.kitri.dto.ExcelDTO;
 import kr.re.kitri.kitri.dao.NavigationDAO;
 import kr.re.kitri.util.ExcelUtil;
+import kr.re.kitri.util.FileDownloadUtil;
 import kr.re.kitri.vo.ExcelSheetVO;
 
 @Controller
@@ -44,7 +45,6 @@ public class ExcelTestController {
 	
 	@Autowired
 	private ServletContext context;
-	
 	
 	@RequestMapping("/test")
 	public void test(HttpServletResponse response) {
@@ -125,12 +125,11 @@ public class ExcelTestController {
 		}
 	}
 
-	@RequestMapping(value = "/dtoTest", produces = "text/plain;charset=UTF-8")
-	@ResponseBody()
-	public String dtoTest(HttpServletResponse response) {
+	@RequestMapping(value = "/dtoTest")
+	public void dtoTest(HttpServletResponse response) {
 		
 		// 추가 경로 지정 null 허용
-		final String SAVE_PATH = "dto/category";
+		final String dir = "dto/category";
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
 		String fileName = format.format(timestamp) + "_excel_dto_test.xlsx";
@@ -152,16 +151,33 @@ public class ExcelTestController {
 		ExcelSheetVO sheet2Data = new ExcelSheetVO(sheetName, header, body); 
 		sheetDatas.add(sheet2Data);
 		
-		ExcelDTO dto = new ExcelDTO(SAVE_PATH, fileName, sheetDatas);
+		ExcelDTO dto = new ExcelDTO(dir, fileName, sheetDatas);
 		
-		boolean excelOk = util.createExcel(dto);
+		fileName = util.createExcel(dto);
 		
-		if(excelOk) {
-			return SAVE_PATH + fileName;
+		if(fileName != null) {
+			
+			try {
+				byte[] fileByte = FileDownloadUtil.getFileByte(fileName);
+				
+				if (fileByte != null && fileByte.length > 0 ) {
+					
+					String downloadFileName = URLEncoder.encode("카테고리.xlsx", "UTF-8").replaceAll("\\+", "%20");
+				
+					response.setHeader("Content-Transfer-Encoding", "binary");
+					
+					response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+					response.setContentLength(fileByte.length);
+					response.setHeader("Content-Disposition", "attachment; fileName=\"" + downloadFileName);
+					
+					response.getOutputStream().write(fileByte);
+					response.getOutputStream().flush();
+					response.getOutputStream().close();
+				}
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		else {
-			return "Fail";
-		}
-		
 	}
 }

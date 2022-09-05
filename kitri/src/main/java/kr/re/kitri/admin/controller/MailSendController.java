@@ -1,6 +1,8 @@
 package kr.re.kitri.admin.controller;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -18,12 +20,18 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kr.re.kitri.dto.MailDTO;
+import kr.re.kitri.util.MailSendUtil;
+
 @Controller
 @RequestMapping("/mail")
 public class MailSendController {
 	
 	@Autowired
 	JavaMailSender sender;
+	
+	@Autowired
+	MailSendUtil util;
 	
 	String from = "khala0017@gmail.com";
 	String to = "hsyeom@wemaginesoft.co.kr";
@@ -103,5 +111,68 @@ public class MailSendController {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	@RequestMapping("/dtoTest")
+	public void send() {
+		
+		MailDTO dto = new MailDTO();
+		String[] to = {"hsyeom@wemaginesoft.co.kr", "khala0017@gmail.com"};
+		
+		dto.setSubject("[로컬] 공통 기능 테스트");
+		dto.setContent("공통 기능 테스트\r\r확인용");
+		dto.setSimple(true);
+		dto.setFromName("로컬 스프링");
+		dto.setTo(to);
+		
+		util.mailSned(dto);
+	}
+	
+	@RequestMapping("/dtoTest2")
+	public void send2() {
+		
+		MailDTO dto = new MailDTO();
+		ClassPathResource resource;
+		Map<String, DataSource> attachments = new LinkedHashMap<String, DataSource>();
+		
+		try {
+			
+			DataSource dataSource;
+			
+			String[] to = {"hsyeom@wemaginesoft.co.kr", "khala0017@gmail.com"};
+			
+			dto.setSubject("[로컬] 공통 기능 테스트");
+			dto.setFromName("로컬 스프링");
+			dto.setTo(to);
+			dto.setReplayTo("khala0017@gmail.com");
+			
+			resource = new ClassPathResource("155548.jpg");
+			dataSource = new FileDataSource(resource.getFile());
+			
+			attachments.put("155548.jpg", dataSource);
+			
+			resource = new ClassPathResource("mybatis/config.xml");
+			dataSource = new FileDataSource(resource.getFile());
+			
+			attachments.put("config.xml", dataSource);
+			
+			dto.setAttachments(attachments);
+			
+			StringBuffer buffer = new StringBuffer();
+			buffer.append("<p>테스트 입니다.<br>");
+			buffer.append("<img src=\"/kitri/resources/155548.jpg\">");
+			buffer.append("</p>");
+			buffer.append("<div>");
+			buffer.append("<img src=\"/kitri/resources/155548.jpg\">");
+			buffer.append("</div>");
+			
+			dto.setContent(buffer.toString());
+			
+			util.mailSned(dto);
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

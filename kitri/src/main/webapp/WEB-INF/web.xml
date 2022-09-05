@@ -48,6 +48,13 @@
 			<param-value>true</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
+		
+		<!-- 파일 업로드 설정  20MB 제한-->
+		<multipart-config>
+			<max-file-size>20971520</max-file-size>
+			<max-request-size>20971520</max-request-size>
+		</multipart-config>
+		
 	</servlet>
 		
 	<servlet-mapping>
