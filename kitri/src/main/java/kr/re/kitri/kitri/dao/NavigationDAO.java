@@ -14,11 +14,11 @@ public class NavigationDAO {
 	private SqlSessionTemplate session;
 	final private String namespace = "kitri.navigationMapper.";
 	
-	public List<Map<String, Object>> getCategory() {
+	public List<Map<String, String>> getCategory() {
 		return session.selectList(namespace + "categorySelect");
 	}
 	
-	public List<Map<String, Object>> getCategoryPage(String path) {
+	public List<Map<String, String>> getCategoryPage(String path) {
 		return session.selectList(namespace + "categoryPageSelect", path);
 	}
 }

@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="INFO">
+	<Properties>
+		<Property name="editFormat">[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%c{10}] [%p] %m %n</Property>
+		<Property name="normalFormat">%t - [%d{yyyy-MM-dd HH:mm:ss}] [%c{1}] [%p] %m %n</Property>
+	</Properties>
+	
 	<Appenders>
 		<Console name="console" target="SYSTEM_OUT">
-			<PatternLayout pattern="%t - [%d{yyyy-MM-dd HH:mm:ss}] [%c{1}] [%p] %m %n" />
+			<PatternLayout pattern="${normalFormat}" />
 		</Console>
+		<RollingFile>
+			<name>rollingFile</name>
+			<fileName>D:/kitri/logs/now.log</fileName>
+			<filePattern>D:/kitri/logs/%d{yyyy-MM-dd}.log</filePattern>
+			<PatternLayout>
+				<pattern>${editFormat}</pattern>
+			</PatternLayout>
+			<policies>
+				<OnStartupTriggeringPolicy />
+				<!-- <SizeBasedTriggeringPolicy size="20 MB" /> -->
+				<TimeBasedTriggeringPolicy interval="1" />
+			</policies>
+		</RollingFile>
 	</Appenders>
 	
 	<Loggers>
-		<Root level="ERROR">
+		<Root level="INFO">
 			<AppenderRef ref="console"/>
 		</Root>
 		<!-- 
@@ -16,7 +34,6 @@
 		</logger>
 		-->
 		<!-- 쿼리 출력 -->
-		
 		<logger level="INFO" name="jdbc.sqlonly" additivity="false"> 
 			<AppenderRef ref="console"/> 
 		</logger>
@@ -25,5 +42,14 @@
 			<AppenderRef ref="console"/> 
 		</logger>
 		 -->
+		 <logger>
+		 	<name>kr.re.kitri.util</name>
+		 	<level>DEBUG</level>
+		 	<additivity>false</additivity>
+		 	<AppenderRef>
+		 		<ref>rollingFile</ref>
+		 		<ref>console</ref>
+		 	</AppenderRef>
+		 </logger>
 	</Loggers>
 </Configuration>

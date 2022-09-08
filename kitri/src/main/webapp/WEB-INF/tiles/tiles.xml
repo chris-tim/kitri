@@ -4,25 +4,22 @@
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
        
 <tiles-definitions>
-	
-	<!-- 홈페이지 레이아웃 -->
-	<definition name="kitriLayout" template="/WEB-INF/tiles/layout/kitri/kitri_layout.jsp">
-		<put-attribute name="gnv" value="/WEB-INF/tiles/layout/kitri/kitri_gnv.jsp" />
+	<definition name="pageLayout" template="/WEB-INF/tiles/layout/layout.jsp">
+		<put-attribute name="head" value="" />
+		<put-attribute name="header" value="" />
 		<put-attribute name="body" value="" />
-		<put-attribute name="footer" value="/WEB-INF/tiles/layout/kitri/kitri_footer.jsp" />
+		<put-attribute name="footer" value="" />
 	</definition>
-	
-	<definition name="kitri/**.editView" extends="kitriLayout">
-		<put-attribute name="body" value="/WEB-INF/views/kitri/edit_view.jsp" />
+	<definition name="*/*" extends="pageLayout">
+		<put-attribute name="head" value="/WEB-INF/tiles/layout/{1}/head.jsp" />
+		<put-attribute name="header" value="/WEB-INF/tiles/layout/{1}/header.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/layout/{1}/footer.jsp" />
 	</definition>
-	
-	<definition name="kitri/*" extends="kitriLayout">
-		<put-attribute name="body" value="/WEB-INF/views/kitri/{1}.jsp" />
+	<definition name="*/*/*" extends="pageLayout">
+		<put-attribute name="head" value="/WEB-INF/tiles/layout/{1}/head.jsp" />
+		<put-attribute name="header" value="/WEB-INF/tiles/layout/{1}/header.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/layout/{1}/footer.jsp" />
 	</definition>
-	
-	<definition name="kitri/*/*" extends="kitriLayout">
-		<put-attribute name="body" value="/WEB-INF/views/kitri/{1}/{2}.jsp" />
-	</definition>
-	
-
 </tiles-definitions>

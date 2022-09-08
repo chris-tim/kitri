@@ -22,7 +22,6 @@ import kr.re.kitri.admin.AdminBase;
 import kr.re.kitri.kitri.dao.NavigationDAO;
 
 @Controller
-@RequestMapping("/admin")
 public class GnvEditController extends AdminBase {
 	
 	@Autowired
@@ -43,9 +42,9 @@ public class GnvEditController extends AdminBase {
 		
 		StringBuffer buffer = new StringBuffer();
 		
-		List<Map<String, Object>> categorys = dao.getCategory();
-		Map<String, Object> t;
-		List<Map<String, Object>> pages;
+		List<Map<String, String>> categorys = dao.getCategory();
+		Map<String, String> t;
+		List<Map<String, String>> pages;
 		
 		buffer.append("<%@ page language=\"java\" contentType=\"text/html; charset=UTF-8\" pageEncoding=\"UTF-8\"%>");
 		buffer.append(enter);
@@ -92,6 +91,7 @@ public class GnvEditController extends AdminBase {
 		// 파일 없을 때 처리 추가 필요
 		try {
 			
+			System.out.println(file.getPath());
 			OutputStream stream = new FileOutputStream(file);
 			Writer writer = new OutputStreamWriter(stream, "UTF-8");
 			
