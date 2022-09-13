@@ -1,20 +1,151 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="common.boardMapper">
-	<select id="boardList" parameterType="Map" resultType="BoardVO">
-		
+
+	<select id="boardTotal" parameterType="BoardListDTO" resultType="int">
+		SELECT 
+			COUNT(bid)
+		FROM
+			posts
+		WHERE
+				table_name = #{tableName}
+			AND is_head = 0
 	</select>
-	<select id="boardView" parameterType="Map" resultType="BoardVO">
-	</select>
-	<insert id="boardWrite" parameterType="BoardDTO">
 	
-	</insert>
-	<update id="boardUpdate" parameterType="BoardDTO">
+	<select id="boardHeadList" parameterType="BoardListDTO" resultType="BoardVO">
+		SELECT
+			bid,
+			datetime,
+			user_id as userId,
+			user_name as userName,
+			title,
+			url,
+			source,
+			views
+		FROM
+			posts
+		WHERE
+				table_name = #{tableName}
+			AND is_head = 1
+		ORDER BY
+			bid DESC
+	</select>
+
+	<select id="boardBodyList" parameterType="BoardListDTO" resultType="BoardVO">
+		SELECT
+			bid,
+			datetime,
+			user_id as userId,
+			user_name as userName,
+			title,
+			url,
+			source,
+			views
+		FROM
+			posts
+		WHERE
+				table_name = #{tableName}
+			AND is_head = 0
+		ORDER BY
+			bid DESC
+		LIMIT
+			#{start}, #{rowLimit}
+	</select>
+	
+	<select id="boardView" parameterType="BoardViewDTO" resultType="BoardVO">
+		SELECT
+			bid,
+			datetime,
+			user_id as userId,
+			user_name as userName,
+			title,
+			content,
+			file1,
+			file2,
+			file3,
+			file4,
+			file5,
+			views,
+			is_open as open,
+			is_head as head
+		FROM
+			posts
+		WHERE
+				table_name = #{tableName}
+			AND bid = #{bid}
+	</select>
+	
+	<update id="boardViewsUpdate" parameterType="BoardViewDTO">
+		UPDATE posts
+			SET
+				views = views + 1
+		WHERE
+				table_name = #{tableName}
+			AND bid = #{bid}
 	</update>
-	<delete id="boardDelete" parameterType="Map">
+	
+	<insert id="boardWrite" parameterType="BoardEditDTO">
+		INSERT INTO posts
+			SET
+				datetime = #{datetime}, 
+				table_name = #{tableName}, 
+				user_id = #{userId}, 
+				user_name = #{userName}, 
+				title = #{title}, 
+				content = #{content}, 
+				is_open = #{open}
+				<if test="webPaths.size > 0">
+					<bind name="index" value="1"/>
+					<foreach collection="webPaths" item="path">
+						, file${index} = #{path}
+						<bind name="index" value="index + 1 "/>
+					</foreach>
+				</if>
+				<if test="url != null">
+					, url = #{url}
+				</if>
+				<if test="source != null">
+					, source = #{source}
+				</if>
+				<if test="head > 0 ">
+					, is_head = #{head}
+				</if>
+	</insert>
+	
+	<update id="boardUpdate" parameterType="BoardEditDTO">
+		UPDATE posts
+			SET
+				datetime = #{datetime}, 
+				table_name = #{tableName}, 
+				user_id = #{userId}, 
+				user_name = #{userName}, 
+				title = #{title}, 
+				content = #{content}, 
+				is_open = #{open}
+				<if test="webPaths.size > 0">
+					<bind name="index" value="1"/>
+					<foreach collection="webPaths" item="path">
+						, file${index} = #{path}
+						<bind name="index" value="index + 1 "/>
+					</foreach>
+				</if>
+				<if test="url != null">
+					, url = #{url}
+				</if>
+				<if test="source != null">
+					, source = #{source}
+				</if>
+				<if test="head > 0 ">
+					, is_head = #{head}
+				</if>
+		WHERE
+				bid = #{bid}
+	</update>
+	
+	<delete id="boardDelete" parameterType="BoardViewDTO">
 		DELETE FROM posts
-			WHERE
-					bid = #{bid},
-				ADN table_name = #{tableName} 
+		WHERE
+				table_name = #{tableName}
+			AND bid = #{bid}
 	</delete>
 </mapper>

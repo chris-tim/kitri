@@ -1,5 +1,7 @@
 package kr.re.kitri.kitri.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,13 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.google.gson.JsonObject;
-
-import kr.re.kitri.common.dto.BoardDTO;
+import kr.re.kitri.common.dto.BoardEditDTO;
+import kr.re.kitri.common.dto.BoardViewDTO;
 import kr.re.kitri.common.service.BoardService;
-import kr.re.kitri.common.service.FileService;
 import kr.re.kitri.common.service.GsonService;
 import kr.re.kitri.kitri.KitriBase;
 
@@ -23,37 +22,17 @@ import kr.re.kitri.kitri.KitriBase;
 public class KitriMainController extends KitriBase {
 	
 	@Autowired
-	private FileService fileService;
+	private BoardService boardService;
 	
 	@Autowired
-	private BoardService boardService;
+	private GsonService gsonService;
 	
 	@GetMapping(value = {"", "/", "/main"})
 	public String main(Model model) {
 		return KITRI_PREFIX + "main";
 	}
 	
-	@GetMapping("/write")
-	public String write(Model model) {
-		return KITRI_PREFIX + "write_view";
-	}
-	
-	@PostMapping(value = "/uploadTest", produces = "application/json;cahrset=UTF-8;")
-	@ResponseBody
-	public JsonObject uploadTest(@RequestParam("uploadFile") MultipartFile multipartFile) {
-		
-		JsonObject json = new JsonObject();
-		
-		String dir = "web";
-		String saveName = fileService.fileUploadToWeb(multipartFile, dir);
-		
-		// 이미지 URL 설정
-		json.addProperty("url", saveName);
-		json.addProperty("responseCode", "success");
-		
-		return json;
-	}
-	
+	// 작성 테스트
 	@GetMapping("/board")
 	public String board() {
 		return KITRI_PREFIX + "board";
@@ -61,12 +40,70 @@ public class KitriMainController extends KitriBase {
 	
 	@PostMapping(value = "/boardTest", produces = "application/json;cahrset=UTF-8;")
 	@ResponseBody
-	public String boardTest(BoardDTO dto) {
+	public String boardTest(BoardEditDTO dto) {
 		
 		dto.setTableName("테스트");
 		dto.setUserId("TESTER");
 		
-		return boardService.boardWrite(dto);
+		return Integer.toString(boardService.boardWrite(dto));
 	}
 	
+	/*
+	 * 완료 처리 추가 필요
+	 */
+	
+	// 리스트 테스트
+	@GetMapping(value = "/list", produces = "application/json;cahrset=UTF-8;")
+	@ResponseBody
+	public String boardList(@RequestParam(required = false, defaultValue = "1") int page, Model model) {
+		
+		if(page < 1)
+			page = 1;
+		
+		String tableName = "테스트";
+		
+		model.addAttribute("boardData", boardService.boardList(tableName, page));
+		model.addAttribute("page", page);
+
+		return  gsonService.toJson(model); 
+	}
+	
+	// 뷰 테스트
+	@GetMapping(value = "/view", produces = "application/json;cahrset=UTF-8;")
+	@ResponseBody
+	public String boardView(@RequestParam(required = false, defaultValue = "1") int page, Model model, HttpServletResponse responese) {
+		
+		if(page < 1)
+			page = 1;
+		
+		BoardViewDTO dto = new BoardViewDTO("테스트", 3);
+		
+		model.addAttribute("boardData", boardService.boardView(dto));
+		model.addAttribute("page", page);
+	
+		return gsonService.toJson(model);
+	}
+	
+	// 수정 폼 테스트
+	@GetMapping(value = "/edit")
+	public String boardEditView(@RequestParam(required = false, defaultValue = "1") int page, Model model, HttpServletResponse responese) {
+		
+		BoardViewDTO dto = new BoardViewDTO("수정 테스트", 1);
+		
+		model.addAttribute("boardData", boardService.boardView(dto));
+		model.addAttribute("page", page);
+		
+		return KITRI_PREFIX + "edit";
+	}
+	
+	// 수정 처리 테스트
+	@PostMapping(value="/editTest", produces = "application/json;cahrset=UTF-8;")
+	@ResponseBody
+	public String boardEdit(BoardEditDTO dto, HttpServletResponse responese) {
+		
+		dto.setTableName("수정 테스트");
+		dto.setUserId("EDIT_TEST");
+		
+		return Integer.toString(boardService.boardUpdate(dto));
+	}
 }

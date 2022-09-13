@@ -12,8 +12,9 @@
 		<package name="kr.re.kitri.common.vo" />
 	</typeAliases>
 	<mappers>
+		<mapper resource="kr/re/kitri/common/mapper/BoardMapper.xml"/>
+	
 		<mapper resource="/mybatis/mapper/kitri/NavigationMapper.xml"/>
 		
-		<package name="kr.re.kitri.common.mapper"/>
 	</mappers>
 </configuration>

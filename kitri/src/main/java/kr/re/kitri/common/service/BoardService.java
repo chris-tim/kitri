@@ -9,7 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.re.kitri.common.dao.BoardDAO;
-import kr.re.kitri.common.dto.BoardDTO;
+import kr.re.kitri.common.dto.BoardEditDTO;
+import kr.re.kitri.common.dto.BoardListDTO;
+import kr.re.kitri.common.dto.BoardViewDTO;
+import kr.re.kitri.common.vo.BoardListVO;
+import kr.re.kitri.common.vo.BoardVO;
 
 @Service
 public class BoardService {
@@ -20,38 +24,57 @@ public class BoardService {
 	@Autowired
 	private FileService fileService;
 	
-	@Autowired
-	private GsonService gsonService;
-	
 	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
-	public List<BoardDTO> boardList(String tableName, int start, int end) {
+	private int rowLimit = 20;
+	private int pageLimit = 10;
+	
+	public BoardListVO boardList(String tableName, int page) {
 		
-		return null;
+		int start = (page - 1) * rowLimit;
+		
+		BoardListDTO dto = new BoardListDTO(tableName, start, rowLimit);
+		
+		List<BoardVO> head = dao.boardHeadList(dto);
+		List<BoardVO> body = dao.boardBodyList(dto);
+		int totalCount = dao.boardTotal(dto);
+		int totalPage = (int) Math.ceil((double) totalCount / rowLimit );
+		int pageStart = (int) ((Math.ceil((double) page / pageLimit) - 1) * pageLimit) + 1;
+		int pageEnd = pageStart + pageLimit - 1;
+		
+		BoardListVO vo = new BoardListVO(head, body, totalCount, totalPage, pageStart, pageEnd);
+		
+		return vo;
 	}
 	
-	public BoardDTO boardView(String tableName, int bid) {
+	public BoardVO boardView(BoardViewDTO dto) {
 		
-		return null;
+		dao.boardViewsUpdate(dto);
+		
+		return dao.boardView(dto);
 	}
 	
-	public String boardWrite(BoardDTO dto) {
+	public int boardWrite(BoardEditDTO dto) {
 		
 		dto.setDatetime(this.getDatetime());
 		dto.setWebPaths(this.attachmentCheck(dto.getAttachments()));
 		dto.setAttachments(null);
 		
-		return gsonService.toJson(dto);
+		return dao.boardWrite(dto);
 	}
 
-	public boolean boardUpdate(BoardDTO dto) {
+	public int boardUpdate(BoardEditDTO dto) {
 		
-		return false;
+		dto.setDatetime(this.getDatetime());
+		dto.setWebPaths(this.attachmentCheck(dto.getAttachments()));
+		dto.setAttachments(null);
+		
+		return dao.boardUpdate(dto);
 	}
 	
-	public boolean boardDelete(String tableName, int bid) {
+	public int boardDelete(String tableName, int bid) {
 		
-		return false;
+		return 0;
 	}
 	
 	private List<String> attachmentCheck(List<MultipartFile> attachments) {
@@ -72,7 +95,7 @@ public class BoardService {
 		}
 		return files;
 	}
-	
+
 	private String getDatetime() {
 		return format.format(System.currentTimeMillis());
 	}

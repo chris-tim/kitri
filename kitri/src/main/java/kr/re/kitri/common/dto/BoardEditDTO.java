@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
-public class BoardDTO {
+public class BoardEditDTO {
 
 	/*
 	 * 폼 + 컨트롤러에서 전달받은 데이터

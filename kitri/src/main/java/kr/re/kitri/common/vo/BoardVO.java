@@ -21,7 +21,7 @@ public class BoardVO {
 	private @Nullable String source;
 	private @Nullable int views;
 	private @Nullable int head;
-	private int opne;
+	private int open;
 	
 	public String getBid() {
 		return bid;
@@ -68,9 +68,7 @@ public class BoardVO {
 	public int getHead() {
 		return head;
 	}
-	public int getOpne() {
-		return opne;
+	public int getOpen() {
+		return open;
 	}
-	
-	
 }
