@@ -26,7 +26,7 @@ public class FileService {
 		return context.getRealPath(BASE_DIR + webPath.replace(context.getContextPath(), ""));
 	}
 	
-	// 파일 업로드 - 웹 경로 반환 - 에디터 용
+	// 파일 업로드 - 웹 경로 반환
 	public String fileUploadToWeb(MultipartFile multipartFile, String dir) {
 		
 		if(multipartFile != null && multipartFile.getSize() > 0) {
@@ -122,15 +122,17 @@ public class FileService {
 		return this.fileDelete(this.getOSPath(webPath));
 	}
 	
+	// 파일 삭제
 	public boolean fileDelete(String osPath) {
 		
 		return this.isExists(osPath) ? new File(osPath).delete() : false;
 	}
 	
+	// 파일 바이트 배열 반환
 	public byte[] getFileByteToWeb(String webPath) {
 		return this.getFileByte(this.getOSPath(webPath));
 	}
-	
+	// 파일 바이트 배열 반환
 	public byte[] getFileByte(String osPath) {
 		
 		byte[] fileByte = null;
@@ -150,9 +152,11 @@ public class FileService {
 		}
 	}
 	
+	// 파일 존재여부 확인
 	public boolean isExistsToWeb(String webPath) {
 		return this.isExists(this.getOSPath(webPath));
 	}
+	// 파일 존재여부 확인
 	public boolean isExists(String osPath) {
 		return new File(osPath).exists();
 	}

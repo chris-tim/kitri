@@ -13,6 +13,10 @@ import kr.re.kitri.common.service.FileService;
 @RestController
 public class SummernoteImageUploadController {
 	
+	/*
+	 * 썸머노트 이미지 업로드 처리 컨트롤러
+	 */
+	
 	@Autowired
 	private FileService fileService;
 

@@ -8,8 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class BoardEditDTO {
 
 	/*
-	 * 폼 + 컨트롤러에서 전달받은 데이터
-	 * 서비스 단에서 로직 처리
+	 * 게시물 작성, 수정 데이터 클래스
+	 * 사용자 입력 데이터 + 컨트롤러에서 넣어준 데이터를 가지고 서비스단에서 첨부파일, 작성일시 처리
 	 */
 	private @Nullable int bid;
 	private String datetime;

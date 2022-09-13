@@ -29,11 +29,12 @@ public class BoardService {
 	private int rowLimit = 20;
 	private int pageLimit = 10;
 	
-	public BoardListVO boardList(String tableName, int page) {
+	// 게시물 목록 반환
+	public BoardListVO boardList(String tableName, int page, String searchTarget, String search) {
 		
 		int start = (page - 1) * rowLimit;
 		
-		BoardListDTO dto = new BoardListDTO(tableName, start, rowLimit);
+		BoardListDTO dto = new BoardListDTO(tableName, start, rowLimit, searchTarget, search);
 		
 		List<BoardVO> head = dao.boardHeadList(dto);
 		List<BoardVO> body = dao.boardBodyList(dto);
@@ -42,11 +43,12 @@ public class BoardService {
 		int pageStart = (int) ((Math.ceil((double) page / pageLimit) - 1) * pageLimit) + 1;
 		int pageEnd = pageStart + pageLimit - 1;
 		
-		BoardListVO vo = new BoardListVO(head, body, totalCount, totalPage, pageStart, pageEnd);
+		BoardListVO vo = new BoardListVO(head, body, searchTarget, search, totalCount, totalPage, pageStart, pageEnd);
 		
 		return vo;
 	}
 	
+	// 게시물 반환 및 조회수 증가
 	public BoardVO boardView(BoardViewDTO dto) {
 		
 		dao.boardViewsUpdate(dto);
@@ -54,6 +56,7 @@ public class BoardService {
 		return dao.boardView(dto);
 	}
 	
+	// 게시물 작성 및 성공 여부 반환
 	public int boardWrite(BoardEditDTO dto) {
 		
 		dto.setDatetime(this.getDatetime());
@@ -63,6 +66,7 @@ public class BoardService {
 		return dao.boardWrite(dto);
 	}
 
+	// 게시물 수정 및 성공 여부 반환
 	public int boardUpdate(BoardEditDTO dto) {
 		
 		dto.setDatetime(this.getDatetime());
@@ -77,6 +81,7 @@ public class BoardService {
 		return 0;
 	}
 	
+	// 첨부파일 서버에 올리고 웹경로 리스트로 반환
 	private List<String> attachmentCheck(List<MultipartFile> attachments) {
 		
 		int size = attachments.size();
@@ -96,6 +101,7 @@ public class BoardService {
 		return files;
 	}
 
+	// 날짜값
 	private String getDatetime() {
 		return format.format(System.currentTimeMillis());
 	}

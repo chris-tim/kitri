@@ -29,6 +29,7 @@ public class ExcelService {
 
 	final private String UPLOAD_DIR = "/excel/";
 
+	// 엑셀 생성 및 다운로드에 필요한 데이터 추가 후 반환
 	public ExcelDTO createExcel(ExcelDTO dto) {
 
 		if (dto != null && dto.getFileName() != "") {

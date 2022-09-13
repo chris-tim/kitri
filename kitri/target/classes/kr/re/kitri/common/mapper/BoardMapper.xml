@@ -10,6 +10,20 @@
 		WHERE
 				table_name = #{tableName}
 			AND is_head = 0
+			AND is_open = 1
+			<if test='search != null and !search.equals("")'>
+				<choose>
+					<when test="searchTarget == 0">
+					AND title like CONCAT('%', #{search}, '%')
+					</when>
+					<when test="searchTarget == 1">
+					AND content like CONCAT('%', #{search}, '%')
+					</when>
+					<when test="searchTarget == 2">
+					AND (title like CONCAT('%', #{search}, '%') or content like CONCAT('%', #{search}, '%'))
+					</when>
+				</choose>
+			</if>
 	</select>
 	
 	<select id="boardHeadList" parameterType="BoardListDTO" resultType="BoardVO">
@@ -27,6 +41,7 @@
 		WHERE
 				table_name = #{tableName}
 			AND is_head = 1
+			AND is_open = 1
 		ORDER BY
 			bid DESC
 	</select>
@@ -46,6 +61,20 @@
 		WHERE
 				table_name = #{tableName}
 			AND is_head = 0
+			AND is_open = 1
+			<if test='search != null and !search.equals("")'>
+				<choose>
+					<when test="searchTarget == 0">
+					AND title like CONCAT('%', #{search}, '%')
+					</when>
+					<when test="searchTarget == 1">
+					AND content like CONCAT('%', #{search}, '%')
+					</when>
+					<when test="searchTarget == 2">
+					AND (title like CONCAT('%', #{search}, '%') or content like CONCAT('%', #{search}, '%'))
+					</when>
+				</choose>
+			</if>
 		ORDER BY
 			bid DESC
 		LIMIT
@@ -95,6 +124,7 @@
 				content = #{content}, 
 				is_open = #{open}
 				<if test="webPaths.size > 0">
+					<!-- foreach index로 설정시 dto.index로 찾아서 따로 설정 -->
 					<bind name="index" value="1"/>
 					<foreach collection="webPaths" item="path">
 						, file${index} = #{path}
@@ -123,6 +153,7 @@
 				content = #{content}, 
 				is_open = #{open}
 				<if test="webPaths.size > 0">
+					<!-- foreach index로 설정시 dto.index로 찾아서 따로 설정 -->
 					<bind name="index" value="1"/>
 					<foreach collection="webPaths" item="path">
 						, file${index} = #{path}

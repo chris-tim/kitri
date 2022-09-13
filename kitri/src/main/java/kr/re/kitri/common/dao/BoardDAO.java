@@ -13,6 +13,10 @@ import kr.re.kitri.common.vo.BoardVO;
 
 @Repository
 public class BoardDAO {
+	
+	/*
+	 * 게시판 DB 처리 클래스
+	 */
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
@@ -29,6 +33,9 @@ public class BoardDAO {
 	}
 	
 	public List<BoardVO> boardBodyList(BoardListDTO dto) {
+		
+		System.out.println(dto.getSearchTarget());
+		System.out.println(dto.getSearch());
 		
 		return sqlSession.selectList(namespcae + "boardBodyList", dto);
 	}

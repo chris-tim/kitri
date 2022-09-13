@@ -1,6 +1,10 @@
 package kr.re.kitri.common.dto;
 
 public class BoardViewDTO {
+	
+	/*
+	 * 게시물 검색 클래스
+	 */
 
 	private String tableName;
 	private int bid;

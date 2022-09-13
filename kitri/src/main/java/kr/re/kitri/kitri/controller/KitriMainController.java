@@ -3,6 +3,7 @@ package kr.re.kitri.kitri.controller;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,14 +56,18 @@ public class KitriMainController extends KitriBase {
 	// 리스트 테스트
 	@GetMapping(value = "/list", produces = "application/json;cahrset=UTF-8;")
 	@ResponseBody
-	public String boardList(@RequestParam(required = false, defaultValue = "1") int page, Model model) {
+	public String boardList(
+			@RequestParam(required = false, defaultValue = "1") int page, 
+			@RequestParam(required = false) @Nullable String searchTarget, 
+			@RequestParam(required = false) @Nullable String search,
+			Model model) {
 		
 		if(page < 1)
 			page = 1;
 		
 		String tableName = "테스트";
 		
-		model.addAttribute("boardData", boardService.boardList(tableName, page));
+		model.addAttribute("boardData", boardService.boardList(tableName, page, searchTarget, search));
 		model.addAttribute("page", page);
 
 		return  gsonService.toJson(model); 
@@ -76,9 +81,7 @@ public class KitriMainController extends KitriBase {
 		if(page < 1)
 			page = 1;
 		
-		BoardViewDTO dto = new BoardViewDTO("테스트", 3);
-		
-		model.addAttribute("boardData", boardService.boardView(dto));
+		model.addAttribute("boardData", boardService.boardView(new BoardViewDTO("테스트", 3)));
 		model.addAttribute("page", page);
 	
 		return gsonService.toJson(model);
@@ -88,9 +91,7 @@ public class KitriMainController extends KitriBase {
 	@GetMapping(value = "/edit")
 	public String boardEditView(@RequestParam(required = false, defaultValue = "1") int page, Model model, HttpServletResponse responese) {
 		
-		BoardViewDTO dto = new BoardViewDTO("수정 테스트", 1);
-		
-		model.addAttribute("boardData", boardService.boardView(dto));
+		model.addAttribute("boardData", boardService.boardView(new BoardViewDTO("수정 테스트", 1)));
 		model.addAttribute("page", page);
 		
 		return KITRI_PREFIX + "edit";

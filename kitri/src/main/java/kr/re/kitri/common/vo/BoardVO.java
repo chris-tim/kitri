@@ -4,7 +4,9 @@ import javax.annotation.Nullable;
 
 public class BoardVO {
 
-	// DB에서 꺼내온 데이터
+	/*
+	 * view에서 사용할 게시물 데이터
+	 */
 	
 	private @Nullable String bid;
 	private String datetime;
