@@ -6,4 +6,4 @@
 </h2>
 
 <br>
-<img src="${ pageContext.request.contextPath }/resources/155548.jpg">
+<img src="${ pageContext.request.contextPath }/upload/155548.jpg">

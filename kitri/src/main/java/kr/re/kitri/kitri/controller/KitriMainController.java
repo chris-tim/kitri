@@ -12,7 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.JsonObject;
 
+import kr.re.kitri.common.dto.BoardDTO;
+import kr.re.kitri.common.service.BoardService;
 import kr.re.kitri.common.service.FileService;
+import kr.re.kitri.common.service.GsonService;
 import kr.re.kitri.kitri.KitriBase;
 
 @Controller
@@ -21,6 +24,9 @@ public class KitriMainController extends KitriBase {
 	
 	@Autowired
 	private FileService fileService;
+	
+	@Autowired
+	private BoardService boardService;
 	
 	@GetMapping(value = {"", "/", "/main"})
 	public String main(Model model) {
@@ -46,6 +52,21 @@ public class KitriMainController extends KitriBase {
 		json.addProperty("responseCode", "success");
 		
 		return json;
+	}
+	
+	@GetMapping("/board")
+	public String board() {
+		return KITRI_PREFIX + "board";
+	}
+	
+	@PostMapping(value = "/boardTest", produces = "application/json;cahrset=UTF-8;")
+	@ResponseBody
+	public String boardTest(BoardDTO dto) {
+		
+		dto.setTableName("테스트");
+		dto.setUserId("TESTER");
+		
+		return boardService.boardWrite(dto);
 	}
 	
 }

@@ -60,7 +60,7 @@ public class AdminExcelController {
 		
 		if(dto != null) {
 			if(dto.getFileByte().length > 0) {
-				
+								
 				try {
 					String downloadFileName = URLEncoder.encode(dto.getFileName() + ".xlsx", "UTF-8").replaceAll("\\+", "%20");
 					

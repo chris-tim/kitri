@@ -33,4 +33,8 @@ private Gson gson;
 	public <V> String toJson(List<V> list) {
 		return gson.toJson(list);
 	}
+	
+	public String toJson(Object src) {
+		return gson.toJson(src);
+	}
 }

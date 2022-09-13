@@ -7,7 +7,13 @@
 		<setting name="callSettersOnNulls" value="true"/>
 		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
+	<typeAliases>
+		<package name="kr.re.kitri.common.dto" />
+		<package name="kr.re.kitri.common.vo" />
+	</typeAliases>
 	<mappers>
 		<mapper resource="/mybatis/mapper/kitri/NavigationMapper.xml"/>
+		
+		<package name="kr.re.kitri.common.mapper"/>
 	</mappers>
 </configuration>
