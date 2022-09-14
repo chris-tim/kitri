@@ -18,8 +18,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.re.kitri.admin.vo.ExcelSheetVO;
 import kr.re.kitri.common.dto.ExcelDTO;
+import kr.re.kitri.common.vo.ExcelSheetVO;
 
 @Service
 public class ExcelService {

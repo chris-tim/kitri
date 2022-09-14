@@ -15,18 +15,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import kr.re.kitri.admin.vo.ExcelSheetVO;
+import kr.re.kitri.admin.dao.kitri.AdminKitriNavigationDAO;
 import kr.re.kitri.common.dto.ExcelDTO;
 import kr.re.kitri.common.service.ExcelService;
-import kr.re.kitri.kitri.dao.NavigationDAO;
+import kr.re.kitri.common.vo.ExcelSheetVO;
 
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminExcelController {
 	
+	// 바디 데이터 처리용
 	@Autowired
-	private NavigationDAO dao;
+	private AdminKitriNavigationDAO dao;
 	
+	// common.service
 	@Autowired
 	private ExcelService excelService;
 	
@@ -42,6 +44,7 @@ public class AdminExcelController {
 		String sheetName = "홈페이지 네비";
 		List<Map<String, String>> body = dao.getCategory();
 		Map<String, String> header = body.get(0);
+		// 시트명, 헤드 데이터, 바디 데이터
 		ExcelSheetVO sheet1Data = new ExcelSheetVO(sheetName, header, body); 
 		
 		sheetDatas.add(sheet1Data);
@@ -51,9 +54,11 @@ public class AdminExcelController {
 		header = new LinkedHashMap<String, String>();
 		header.put("0", "카테고리 명");
 		header.put("1", "경로");
+		// 시트명, 헤드 데이터, 바디 데이터
 		ExcelSheetVO sheet2Data = new ExcelSheetVO(sheetName, header, body); 
 		sheetDatas.add(sheet2Data);
 		
+		// 추가 경로, 다운 파일명,  시트 리스트
 		ExcelDTO dto = new ExcelDTO(null, fileName, sheetDatas);
 		
 		dto = excelService.createExcel(dto);

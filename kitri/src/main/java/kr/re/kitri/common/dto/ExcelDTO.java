@@ -2,7 +2,7 @@ package kr.re.kitri.common.dto;
 
 import java.util.List;
 
-import kr.re.kitri.admin.vo.ExcelSheetVO;
+import kr.re.kitri.common.vo.ExcelSheetVO;
 
 public class ExcelDTO {
 

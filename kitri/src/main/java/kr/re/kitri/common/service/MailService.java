@@ -104,7 +104,6 @@ public class MailService {
 			
 			String regex = "src=\"";
 			String regex2 = "\">";
-			String quote = "\"";
 			String content = dto.getContent();
 			Map<String, FileDataSource> imageDatas = null;
 			

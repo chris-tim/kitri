@@ -14,19 +14,20 @@ import kr.re.kitri.admin.vo.AdminVO;
 @RequestMapping(value = "/admin/main")
 public class AdminMainController extends AdminBase {
 
-	@RequestMapping("/main")
+	@RequestMapping(value = {"" ,"/", "/main"})
 	public String main(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		session.getAttribute("admin");
 		
 		AdminVO adminVO = (AdminVO) session.getAttribute("admin");
 		
-		
+	
 		if(adminVO != null && adminVO.adminCheck()) {
 			return "";
 		}
 		else {
 			return ADMIN_PREFIX + "main/main";
 		}
+	
 	}
 }

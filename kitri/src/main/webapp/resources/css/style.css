@@ -1,0 +1,170 @@
+﻿/* 플레이스홀더 */
+
+.pl_wrap {
+}
+.pl_wrap.on {
+}
+.pl_txt {
+  opacity: 0.5;
+  z-index: 100;
+}
+.pl_wrap.on > .pl_txt {
+  opacity: 0;
+}
+.pl_ip {
+  z-index: 1000;
+}
+
+/* 포인트 컬러 */
+
+.ptc_bg {
+  background: #617399;
+}
+.ptc_t {
+  color: #617399;
+}
+
+/* 버튼 */
+
+.btn {
+  box-sizing: border-box;
+  text-align: center;
+  border: #b5b3c1 1px solid;
+  color: #81809f;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: rgba(58, 56, 165, 0.2) 2px 2px 4px;
+}
+.btn:active {
+  position: relative;
+  border-top: 2px inset rgba(58, 56, 165, 0.3);
+  border-left: 2px inset rgba(58, 56, 165, 0.3);
+  box-shadow: none;
+}
+
+.btn_02 {
+  box-sizing: border-box;
+  text-align: center;
+  border: #26238c 1px solid;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: rgba(58, 56, 165, 0.4) 2px 2px 4px;
+  background: #3a38a5;
+}
+.btn_02:active {
+  position: relative;
+  border-top: 2px inset rgba(0, 0, 0, 1);
+  border-left: 2px inset rgba(0, 0, 0, 1);
+  box-shadow: none;
+}
+
+.btn_03 {
+  box-sizing: border-box;
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  background: #3a38a5;
+}
+.btn_03:active {
+  position: relative;
+  border-top: 2px inset rgba(0, 0, 0, 1);
+  border-left: 2px inset rgba(0, 0, 0, 1);
+  box-shadow: none;
+}
+
+.btn_04 {
+  box-sizing: border-box;
+  text-align: center;
+  border: rgba(224, 46, 80, 1) 1px solid;
+  color: rgba(224, 46, 80, 1);
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: rgba(224, 46, 80, 0.4) 2px 2px 4px;
+}
+.btn_04:active {
+  position: relative;
+  border-top: 2px inset rgba(224, 46, 80, 0.5);
+  border-left: 2px inset rgba(224, 46, 80, 0.5);
+  box-shadow: none;
+}
+
+/* 체크박스 */
+
+.ld_check {
+  width: 15px;
+  height: 15px;
+  margin: 13px 0 0 0;
+  border: #e0e3e5 1px solid;
+  border-radius: 5px;
+  float: left;
+  vertical-align: text-bottom;
+  box-sizing: border-box;
+  position: relative;
+}
+input[class='ld_check'] + label {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #e6e9ea;
+  cursor: pointer;
+  border-radius: 5px;
+  float: left;
+  box-sizing: border-box;
+}
+input[class='ld_check']:checked + label {
+  position: relative;
+}
+input[class='ld_check']:checked + label:after {
+  content: '';
+  width: 3px;
+  height: 8px;
+  left: 4px;
+  top: 7px;
+  background: #134c7d;
+  position: absolute;
+  transform: rotate(-45deg);
+}
+input[class='ld_check']:checked + label:before {
+  content: '';
+  width: 3px;
+  height: 12px;
+  right: 5px;
+  top: 3px;
+  background: #134c7d;
+  position: absolute;
+  transform: rotate(45deg);
+}
+input[class='ld_check'] {
+  display: none;
+}
+
+/* 셀렉트박스 */
+
+select::-ms-expand {
+  display: none;
+}
+
+select {
+  background-image: url('/images/global/selec_w.svg');
+  background-repeat: no-repeat;
+  background-position: right;
+  border-radius: 0px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+}
+
+.cl:after {
+  content:'';
+  visibility: hidden;
+  font-size: 0;
+  line-height: 0;
+  display: block;
+  clear: both;
+}
+div{
+  box-sizing:border-box;
+}

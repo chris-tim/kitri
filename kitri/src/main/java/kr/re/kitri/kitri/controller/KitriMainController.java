@@ -1,5 +1,6 @@
 package kr.re.kitri.kitri.controller;
 
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class KitriMainController extends KitriBase {
 	
 	@GetMapping(value = {"", "/", "/main"})
 	public String main(Model model) {
+		
 		return KITRI_PREFIX + "main";
 	}
 	
